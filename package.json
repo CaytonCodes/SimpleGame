@@ -1,0 +1,49 @@
+{
+  "name": "quarantinegame",
+  "version": "1.0.0",
+  "description": "Single Player Obstacle Avoidance Game",
+  "main": "index.js",
+  "scripts": {
+    "buildDev": "webpack --watch",
+    "server": "nodemon server/index.js",
+    "start": "node server/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CaytonCodes/QuarantineGame.git"
+  },
+  "author": "Scotty Cayton",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CaytonCodes/QuarantineGame/issues"
+  },
+  "homepage": "https://github.com/CaytonCodes/QuarantineGame#readme",
+  "devDependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/preset-env": "^7.12.16",
+    "@babel/preset-react": "^7.12.13",
+    "babel-loader": "^8.2.2",
+    "css-loader": "^5.0.2",
+    "eslint": "^7.20.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "nodemon": "^2.0.7",
+    "sass": "^1.32.7",
+    "sass-loader": "^11.0.1",
+    "style-loader": "^2.0.0",
+    "webpack": "^5.21.2",
+    "webpack-cli": "^4.5.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "jquery": "^3.5.1",
+    "prop-types": "^15.7.2",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0"
+  }
+}
