@@ -17,8 +17,8 @@
     "sourceType": "module"
   },
   "plugins": [
-    "react",
-    "jest"
+    "react"
+    // "jest"
   ]
   // "rules": {
   //   "jest/no-disabled-tests": "warn",
