@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { mainTitle } from './Statements';
-import GameBoard from './GameBoard';
+import BoardCont from './BoardCont';
 
 const Title = styled.h1`
   text-align: center;
@@ -19,7 +19,7 @@ class App extends React.Component {
     return (
       <div>
         <Title>{mainTitle}</Title>
-        <GameBoard />
+        <BoardCont />
       </div>
     );
   }
