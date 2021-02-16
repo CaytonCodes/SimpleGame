@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import GameCanvas from './GameCanvas';
+import GameCanvas from './GameLogic/GameCanvas';
 import StartScreen from './StartScreen';
 
 const BoardContainer = styled.div`
@@ -35,7 +35,6 @@ class BoardCont extends React.Component {
   }
 
   gameChange(phase) {
-    console.log('game change');
     this.setState({ gamePhase: phase });
   }
 

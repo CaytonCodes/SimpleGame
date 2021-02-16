@@ -28,7 +28,9 @@ const draw = (ctx, boardWidth, boardHeight, obstacles, player, gameChange) => {
     const dx = obstacle.x - player.x;
     const dy = obstacle.y - player.y;
     const distance = Math.sqrt(dx * dx + dy * dy);
-    if (distance < obstacle.radius + player.radius) { gameChange(0); }
+    if (distance < obstacle.radius + player.radius) {
+      gameChange(0);
+    }
   });
   player.draw(ctx);
 };
@@ -65,6 +67,7 @@ const handleKeyPress = (e, player, boardWidth, boardHeight) => {
 const GameCanvas = (props) => {
   const { boardWidth, boardHeight, gameChange } = props;
   const canvasRef = useRef(null);
+  const frameRef = useRef();
   const obstacles = [];
   for (let i = 0; i < 4; i += 1) {
     const starters = starterVals(0, boardWidth, boardHeight);
@@ -73,24 +76,23 @@ const GameCanvas = (props) => {
   const player = new Player(Math.floor(boardWidth / 2), Math.floor(boardHeight / 2), 20);
 
   const render = (context) => {
+    frameRef.current = window.requestAnimationFrame(render.bind(null, context));
     draw(context, boardWidth, boardHeight, obstacles, player, gameChange);
-    let raf = window.requestAnimationFrame(render.bind(null, context));
+  };
+
+  const keyListener = (e) => {
+    handleKeyPress(e, player, boardWidth, boardHeight);
   };
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d');
-    let raf;
-    let running = true;
-    window.addEventListener('keydown', (e) => { handleKeyPress(e, player, boardWidth, boardHeight); });
-    raf = window.requestAnimationFrame(render.bind(null, context));
+    window.addEventListener('keydown', keyListener);
+    frameRef.current = window.requestAnimationFrame(render.bind(null, context));
 
     return () => {
-      running = false;
-      context.clearRect(0, 0, boardWidth, boardHeight);
-      window.removeEventListener('keydown', (e) => { handleKeyPress(e, player, boardWidth, boardHeight); });
-      console.log('useEffect returned');
-      window.cancelAnimationFrame(raf);
+      window.removeEventListener('keydown', keyListener);
+      window.cancelAnimationFrame(frameRef.current);
     };
   }, []);
 
