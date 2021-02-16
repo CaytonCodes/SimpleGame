@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import GameCanvas from './GameCanvas';
+import StartScreen from './StartScreen';
 
 const BoardContainer = styled.div`
   display: flex;
@@ -22,7 +23,9 @@ class BoardCont extends React.Component {
     this.state = {
       boardWidth: '0',
       boardHeight: '0',
+      gamePhase: 0,
     };
+    this.gameChange = this.gameChange.bind(this);
   }
 
   componentDidMount() {
@@ -31,12 +34,32 @@ class BoardCont extends React.Component {
     this.setState({ boardWidth, boardHeight });
   }
 
+  gameChange(phase) {
+    console.log('game change');
+    this.setState({ gamePhase: phase });
+  }
+
+  gameShow() {
+    const { gamePhase, boardWidth, boardHeight } = this.state;
+    if (gamePhase === 0) {
+      return <StartScreen gameChange={this.gameChange} />;
+    }
+    if (gamePhase === 1) {
+      return (
+        <GameCanvas
+          boardWidth={boardWidth}
+          boardHeight={boardHeight}
+          gameChange={this.gameChange}
+        />
+      );
+    }
+  }
+
   render() {
-    const { boardWidth, boardHeight } = this.state;
     return (
       <BoardContainer className="BoardContainer">
         <BoardWrapper id="BoardWrapper">
-          <GameCanvas boardWidth={boardWidth} boardHeight={boardHeight} />
+          {this.gameShow()}
         </BoardWrapper>
       </BoardContainer>
     );

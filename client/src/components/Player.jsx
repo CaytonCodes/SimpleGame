@@ -1,9 +1,7 @@
-class Obstacle {
-  constructor(x, y, vx, vy, radius) {
+class Player {
+  constructor(x, y, radius) {
     this.x = x;
     this.y = y;
-    this.vx = vx;
-    this.vy = vy;
     this.radius = radius;
   }
 
@@ -11,9 +9,9 @@ class Obstacle {
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
     ctx.closePath();
-    ctx.fillStyle = 'blue';
+    ctx.fillStyle = 'yellow';
     ctx.fill();
   }
 }
 
-export default Obstacle;
+export default Player;
