@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import GameCanvas from './GameLogic/GameCanvas';
 import StartScreen from './StartScreen';
+import GameEndScreen from './GameEndScreen';
 
 const BoardContainer = styled.div`
   display: flex;
@@ -11,39 +12,44 @@ const BoardContainer = styled.div`
 const BoardWrapper = styled.div`
   position: relative;
   background: darkgrey;
-  width: 80%;
-  max-height: 80%;
-  padding-bottom: 75%;
+  width: 70%;
+  min-width: 500px;
+  height: 80vh;
   border: 5px solid white;
 `;
+
+const getBoardSize = () => {
+  const boardWidth = document.getElementById('BoardWrapper').clientWidth;
+  const boardHeight = document.getElementById('BoardWrapper').clientHeight;
+  return { boardWidth, boardHeight };
+};
 
 class BoardCont extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      boardWidth: '0',
-      boardHeight: '0',
       gamePhase: 0,
+      lastGame: 0,
     };
     this.gameChange = this.gameChange.bind(this);
   }
 
-  componentDidMount() {
-    const boardWidth = document.getElementById('BoardWrapper').clientWidth;
-    const boardHeight = document.getElementById('BoardWrapper').clientHeight;
-    this.setState({ boardWidth, boardHeight });
-  }
-
-  gameChange(phase) {
+  gameChange(phase, time = 0) {
+    const { gameEnd } = this.props;
+    if (time > 0) {
+      this.setState({ lastGame: time });
+      gameEnd(time);
+    }
     this.setState({ gamePhase: phase });
   }
 
   gameShow() {
-    const { gamePhase, boardWidth, boardHeight } = this.state;
+    const { gamePhase, lastGame } = this.state;
     if (gamePhase === 0) {
       return <StartScreen gameChange={this.gameChange} />;
     }
     if (gamePhase === 1) {
+      const { boardWidth, boardHeight } = getBoardSize();
       return (
         <GameCanvas
           boardWidth={boardWidth}
@@ -52,6 +58,12 @@ class BoardCont extends React.Component {
         />
       );
     }
+    return (
+      <GameEndScreen
+        gameTime={lastGame}
+        gameChange={this.gameChange}
+      />
+    );
   }
 
   render() {

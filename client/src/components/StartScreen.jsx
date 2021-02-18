@@ -18,6 +18,10 @@ const Instructions = styled.div`
   text-align: left;
 `;
 
+const StartButton = styled.input`
+  margin: 50px;
+`;
+
 function StartScreen(props) {
   const { gameChange } = props;
   const startClick = (e) => {
@@ -30,7 +34,7 @@ function StartScreen(props) {
       <StartDiv>
         <h3>{playInstructionsTitle}</h3>
         <Instructions>{playInstructions}</Instructions>
-        <input
+        <StartButton
           type="button"
           value="Let's Play!"
           onClick={startClick}

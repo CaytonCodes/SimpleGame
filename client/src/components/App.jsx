@@ -13,13 +13,21 @@ class App extends React.Component {
     this.state = {
       sessionScores: [],
     };
+    this.gameEnd = this.gameEnd.bind(this);
+  }
+
+  gameEnd(time) {
+    const { sessionScores } = this.state;
+    sessionScores.unshift(time);
+    if (sessionScores.length > 10) { sessionScores.pop(); }
+    this.setState({ sessionScores });
   }
 
   render() {
     return (
       <div>
         <Title>{mainTitle}</Title>
-        <BoardCont />
+        <BoardCont gameEnd={this.gameEnd} />
       </div>
     );
   }

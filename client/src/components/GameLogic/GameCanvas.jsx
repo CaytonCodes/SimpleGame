@@ -2,6 +2,8 @@ import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import Obstacle from './Obstacle';
 import Player from './Player';
+import draw from './Draw';
+import { starterVals, handleKeyPress } from './GameFuncs';
 
 const Canv = styled.canvas`
   position: absolute;
@@ -10,78 +12,33 @@ const Canv = styled.canvas`
   z-index: 2;
 `;
 
-const draw = (ctx, boardWidth, boardHeight, obstacles, player, gameChange) => {
-  ctx.clearRect(0, 0, boardWidth, boardHeight);
-  obstacles.forEach((object) => {
-    const obstacle = object;
-    obstacle.draw(ctx);
-    if (obstacle.y + obstacle.vy + 20 > boardHeight || obstacle.y + obstacle.vy - 20 < 0) {
-      obstacle.vy = -obstacle.vy;
-    }
-    if (obstacle.x + obstacle.vx + 20 > boardWidth || obstacle.x + obstacle.vx - 20 < 0) {
-      obstacle.vx = -obstacle.vx;
-    }
-    obstacle.x += (Math.floor(obstacle.vx / 3) || 1);
-    obstacle.y += (Math.floor(obstacle.vy / 3) || 1);
-
-    // collision check
-    const dx = obstacle.x - player.x;
-    const dy = obstacle.y - player.y;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-    if (distance < obstacle.radius + player.radius) {
-      gameChange(0);
-    }
-  });
-  player.draw(ctx);
-};
-
-const randomNum = (max, min = 1) => (Math.floor(Math.random() * (max - min) + min));
-
-const starterVals = (edge, boardWidth, boardHeight) => {
-  let x = randomNum(Math.floor(boardWidth * (2 / 3)), Math.floor(boardWidth / 3));
-  let y = randomNum(Math.floor(boardHeight * (2 / 3)), Math.floor(boardHeight / 3));
-  if (edge === 0) { y = 21; }
-  if (edge === 2) { y = boardHeight - 21; }
-  if (edge === 1) { x = boardWidth - 21; }
-  if (edge === 3) { x = 21; }
-  const velX = randomNum(10);
-  const velY = randomNum(10);
-  return [x, y, velX, velY];
-};
-
-const handleKeyPress = (e, player, boardWidth, boardHeight) => {
-  const mover = player;
-  e.preventDefault();
-  const { key } = e;
-  console.log(key);
-  if ((key === 'ArrowUp' || key === 'i')
-    && mover.y > 25) { mover.y -= 8; }
-  if ((key === 'ArrowDown' || key === 'k')
-    && mover.y < boardHeight - 25) { mover.y += 8; }
-  if ((key === 'ArrowRight' || key === 'l')
-    && mover.x < boardWidth - 25) { mover.x += 8; }
-  if ((key === 'ArrowLeft' || key === 'j')
-    && mover.x > 25) { mover.x -= 8; }
-};
-
 const GameCanvas = (props) => {
   const { boardWidth, boardHeight, gameChange } = props;
-  const canvasRef = useRef(null);
+  const radius = Math.max(Math.floor(Math.max(boardWidth, boardHeight) / 67), 10);
+  const canvasRef = useRef();
   const frameRef = useRef();
   const obstacles = [];
+  const startTime = Date.now();
   for (let i = 0; i < 4; i += 1) {
-    const starters = starterVals(0, boardWidth, boardHeight);
-    obstacles.push(new Obstacle(...starters, 20));
+    const starters = starterVals(0, boardWidth, boardHeight, radius);
+    obstacles.push(new Obstacle(...starters, radius));
   }
-  const player = new Player(Math.floor(boardWidth / 2), Math.floor(boardHeight / 2), 20);
+  const player = new Player(Math.floor(boardWidth / 2), Math.floor(boardHeight / 2), radius);
+
+  const keyListener = (e) => {
+    e.preventDefault();
+    const { key } = e;
+    handleKeyPress(key, player, boardWidth, boardHeight);
+  };
+
+  const gameEnd = () => {
+    const gameLength = parseFloat(((Date.now() - startTime) / 1000).toFixed(2));
+    gameChange(2, gameLength);
+  };
 
   const render = (context) => {
     frameRef.current = window.requestAnimationFrame(render.bind(null, context));
-    draw(context, boardWidth, boardHeight, obstacles, player, gameChange);
-  };
-
-  const keyListener = (e) => {
-    handleKeyPress(e, player, boardWidth, boardHeight);
+    draw(context, boardWidth, boardHeight, obstacles, player, gameEnd);
   };
 
   useEffect(() => {
