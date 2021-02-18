@@ -1,3 +1,5 @@
+import Obstacle from './Obstacle';
+
 const randomNum = (max, min = 1) => (Math.floor(Math.random() * (max - min) + min));
 
 const starterVals = (edge, boardWidth, boardHeight, radius) => {
@@ -12,20 +14,25 @@ const starterVals = (edge, boardWidth, boardHeight, radius) => {
   return [x, y, velX, velY];
 };
 
-const handleKeyPress = (key, player, boardWidth, boardHeight) => {
-  const mover = player;
-  const stepSize = Math.round(player.radius * 0.4);
-  if ((key === 'ArrowUp' || key === 'i')
-    && mover.y > player.radius) { mover.y -= stepSize; }
-  if ((key === 'ArrowDown' || key === 'k')
-    && mover.y < boardHeight - player.radius) { mover.y += stepSize; }
-  if ((key === 'ArrowRight' || key === 'l')
-    && mover.x < boardWidth - player.radius) { mover.x += stepSize; }
-  if ((key === 'ArrowLeft' || key === 'j')
-    && mover.x > player.radius) { mover.x -= stepSize; }
+const gameFuncs = {
+  handleKeyPress(key, player, boardWidth, boardHeight) {
+    const mover = player;
+    const stepSize = Math.round(player.radius * 0.6);
+    if ((key === 'ArrowUp' || key === 'i')
+      && mover.y > player.radius + stepSize) { mover.y -= stepSize; }
+    if ((key === 'ArrowDown' || key === 'k')
+      && mover.y < boardHeight - player.radius - stepSize) { mover.y += stepSize; }
+    if ((key === 'ArrowRight' || key === 'l')
+      && mover.x < boardWidth - player.radius - stepSize) { mover.x += stepSize; }
+    if ((key === 'ArrowLeft' || key === 'j')
+      && mover.x > player.radius + stepSize) { mover.x -= stepSize; }
+  },
+  newObstacles(obstacles, number, boardWidth, boardHeight, radius) {
+    for (let i = 0; i < number; i += 1) {
+      const starters = starterVals(0, boardWidth, boardHeight, radius);
+      obstacles.push(new Obstacle(...starters, radius));
+    }
+  },
 };
 
-module.exports = {
-  starterVals,
-  handleKeyPress,
-};
+export default gameFuncs;

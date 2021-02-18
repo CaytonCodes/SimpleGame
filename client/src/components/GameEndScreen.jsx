@@ -7,17 +7,20 @@ const EndCont = styled.div`
   height: 100%;
   text-align: center;
   background-color: #d16666;
-  padding: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
 `;
 
 const EndWrapper = styled.div`
-  opacity: 1;
   margin: auto;
   background-color: transparent;
-  padding: 50px;
 `;
 const RestartButt = styled.input`
   margin: 50px;
+  font-size: 1.25rem;
+  font-weight: 700;
 `;
 
 const GameEndScreen = (props) => {

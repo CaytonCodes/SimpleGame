@@ -3,23 +3,30 @@ import styled from 'styled-components';
 import { playInstructionsTitle, playInstructions } from './Statements';
 
 const StartCont = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
   position: absolute;
   width: 100%;
   text-align: center;
+  margin: auto;
 `;
 
 const StartDiv = styled.div`
-  opacity: 1.0;
-  text-align: center;
 `;
 
 const Instructions = styled.div`
   white-space: pre-wrap;
+  margin: auto;
   text-align: left;
+  line-height: 2;
 `;
 
 const StartButton = styled.input`
   margin: 50px;
+  font-size: 1.25rem;
+  font-weight: 700;
 `;
 
 function StartScreen(props) {
@@ -30,11 +37,12 @@ function StartScreen(props) {
   };
 
   return (
-    <StartCont>
-      <StartDiv>
-        <h3>{playInstructionsTitle}</h3>
-        <Instructions>{playInstructions}</Instructions>
+    <StartCont id="StartCont">
+      <StartDiv id="StartDiv">
+        <h3 id="StartHeader">{playInstructionsTitle}</h3>
+        <Instructions id="StartInstructions">{playInstructions}</Instructions>
         <StartButton
+          id="StartButton"
           type="button"
           value="Let's Play!"
           onClick={startClick}

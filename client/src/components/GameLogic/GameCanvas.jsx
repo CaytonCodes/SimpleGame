@@ -1,9 +1,11 @@
 import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import Obstacle from './Obstacle';
+// import Obstacle from './Obstacle';
 import Player from './Player';
 import draw from './Draw';
-import { starterVals, handleKeyPress } from './GameFuncs';
+import gameFuncs from './GameFuncs';
+
+const { handleKeyPress, newObstacles } = gameFuncs;
 
 const Canv = styled.canvas`
   position: absolute;
@@ -14,15 +16,16 @@ const Canv = styled.canvas`
 
 const GameCanvas = (props) => {
   const { boardWidth, boardHeight, gameChange } = props;
-  const radius = Math.max(Math.floor(Math.max(boardWidth, boardHeight) / 67), 10);
+
   const canvasRef = useRef();
   const frameRef = useRef();
   const obstacles = [];
   const startTime = Date.now();
-  for (let i = 0; i < 4; i += 1) {
-    const starters = starterVals(0, boardWidth, boardHeight, radius);
-    obstacles.push(new Obstacle(...starters, radius));
-  }
+  let obstacleCount = 4;
+  let lastEntry = startTime;
+
+  const radius = Math.max(Math.floor(Math.max(boardWidth, boardHeight) / 67), 10);
+  newObstacles(obstacles, obstacleCount++, boardWidth, boardHeight, radius);
   const player = new Player(Math.floor(boardWidth / 2), Math.floor(boardHeight / 2), radius);
 
   const keyListener = (e) => {
@@ -37,6 +40,12 @@ const GameCanvas = (props) => {
   };
 
   const render = (context) => {
+    let thisTime = Date.now();
+    const currentRun = thisTime - lastEntry;
+    if (currentRun > 15000) {
+      lastEntry = thisTime;
+      newObstacles(obstacles, obstacleCount++, boardWidth, boardHeight, radius);
+    }
     frameRef.current = window.requestAnimationFrame(render.bind(null, context));
     draw(context, boardWidth, boardHeight, obstacles, player, gameEnd);
   };
