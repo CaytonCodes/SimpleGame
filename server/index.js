@@ -11,6 +11,8 @@ app.use(bodyparser.urlencoded({ extended: false }));
 
 app.use(express.static(`${__dirname}/../client/dist`));
 
+// app.get('/api/highScores')
+
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`);
 });

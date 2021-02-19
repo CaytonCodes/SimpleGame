@@ -6,4 +6,7 @@ module.exports = {
 \u2022 'I', 'J', 'K', 'L' keys also work.
 \u2022 If a virus contacts the player, game over.
 \u2022 Wear a mask, wash your hands.`,
+  SessScoresHeader: 'Your recent scores',
+  ScoresEmpty: 'Play some games to fill this in',
+  HighScoresHeader: 'High Scores',
 };

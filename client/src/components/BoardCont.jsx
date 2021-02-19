@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import GameCanvas from './GameLogic/GameCanvas';
 import StartScreen from './StartScreen';
 import GameEndScreen from './GameEndScreen';
+import PlayerModal from './PlayerModal';
 
 const BoardContainer = styled.div`
   display: flex;
@@ -67,9 +68,15 @@ class BoardCont extends React.Component {
   }
 
   render() {
+    const { playerName, updatePlayer } = this.props;
+    let playerModal = '';
+    if (!playerName) {
+      playerModal = <PlayerModal updatePlayer={updatePlayer} />;
+    }
     return (
       <BoardContainer className="BoardContainer">
         <BoardWrapper id="BoardWrapper">
+          {playerModal}
           {this.gameShow()}
         </BoardWrapper>
       </BoardContainer>
