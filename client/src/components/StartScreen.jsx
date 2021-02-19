@@ -9,16 +9,18 @@ const StartCont = styled.div`
   align-content: center;
   position: absolute;
   width: 100%;
-  text-align: center;
   margin: auto;
 `;
 
 const StartDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Instructions = styled.div`
   white-space: pre-wrap;
-  margin: auto;
+  margin: auto 50px;
   text-align: left;
   line-height: 2;
 `;
