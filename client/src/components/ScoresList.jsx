@@ -3,11 +3,14 @@ import styled from 'styled-components';
 import { ScoresEmpty } from './Statements';
 
 const ScoresWrapper = styled.div`
-
+  border: 1px solid white;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
 `;
 
 const ScoresHeader = styled.h3`
-
+  text-align: center;
 `;
 
 const ScoresUL = styled.ul`
@@ -21,7 +24,7 @@ const ScoreEntry = styled.li`
 function ScoresList(props) {
   const { list, header } = props;
 
-  let scoresList = ScoresEmpty;
+  let scoresList = `${ScoresEmpty} `;
   if (list[0]) {
     let counter = 0;
     scoresList = list.map((score) => {
@@ -33,7 +36,7 @@ function ScoresList(props) {
             {score[0]}
             &nbsp;&nbsp;Score:&nbsp;
             {score[1]}
-          &nbsp;seconds
+          &nbsp;seconds&nbsp;
           </ScoreEntry>
         );
       }

@@ -6,7 +6,7 @@ const EndCont = styled.div`
   width: 100%;
   height: 100%;
   text-align: center;
-  background-color: #d16666;
+  background-color: #e43d3d;
   display: flex;
   flex-direction: column;
   align-items: center;

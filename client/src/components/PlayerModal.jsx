@@ -5,8 +5,14 @@ const Modal = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: black;
   z-index: 100;
+  text-align: center;
+`;
+
+const Submit = styled.input`
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 50px;
 `;
 
 function PlayerModal(props) {
@@ -15,6 +21,10 @@ function PlayerModal(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (name === '') {
+      updatePlayer('anonymous');
+      return;
+    }
     updatePlayer(name);
   };
 
@@ -26,12 +36,14 @@ function PlayerModal(props) {
   return (
     <Modal id="PlayerModal">
       <h3>Choose a Name to Track Your Score</h3>
+      <p>Leave blank to play anonymously.</p>
       <form onSubmit={handleSubmit}>
         <label>
           Player Name:
           <input type="text" value={name} onChange={inputChange} />
         </label>
-        <input type="submit" value="Submit" />
+        <br />
+        <Submit type="submit" value="Submit" />
       </form>
     </Modal>
   );

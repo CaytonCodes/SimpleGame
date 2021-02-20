@@ -46,10 +46,14 @@ class BoardCont extends React.Component {
 
   gameShow() {
     const { gamePhase, lastGame } = this.state;
+    const { playerName, updatePlayer } = this.props;
     if (gamePhase === 0) {
       return <StartScreen gameChange={this.gameChange} />;
     }
     if (gamePhase === 1) {
+      if (!playerName) {
+        return (<PlayerModal updatePlayer={updatePlayer} />);
+      }
       const { boardWidth, boardHeight } = getBoardSize();
       return (
         <GameCanvas
@@ -68,15 +72,9 @@ class BoardCont extends React.Component {
   }
 
   render() {
-    const { playerName, updatePlayer } = this.props;
-    let playerModal = '';
-    if (!playerName) {
-      playerModal = <PlayerModal updatePlayer={updatePlayer} />;
-    }
     return (
       <BoardContainer className="BoardContainer">
         <BoardWrapper id="BoardWrapper">
-          {playerModal}
           {this.gameShow()}
         </BoardWrapper>
       </BoardContainer>

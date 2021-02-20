@@ -10,7 +10,15 @@ const Title = styled.h1`
   `;
 
 const ScoreCont = styled.div`
-
+  padding-top: 1rem;
+  margin: auto;
+  width: 70%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space evenly;
+  align-items: stretch;
+  align-content: stretch;
 `;
 
 class App extends React.Component {
@@ -32,10 +40,16 @@ class App extends React.Component {
   }
 
   gameEnd(time) {
-    const { sessionScores } = this.state;
+    const { sessionScores, playerName } = this.state;
     sessionScores.unshift(time);
     if (sessionScores.length > 10) { sessionScores.pop(); }
     this.setState({ sessionScores });
+    console.log(this.state.sessionScores);
+    $.post('/api/newGame', { playerId: playerName, sessionScores: sessionScores }, (returnedData) => {
+      if (returnedData[1]) {
+        this.setState({ highScores: returnedData[1] });
+      }
+    });
   }
 
   updatePlayer(name) {
@@ -52,7 +66,7 @@ class App extends React.Component {
           playerName={playerName}
           updatePlayer={this.updatePlayer}
         />
-        <ScoreCont>
+        <ScoreCont className="ScoresContainer">
           <ScoresList list={highScores} header={HighScoresHeader} />
           <ScoresList list={sessionScores} header={SessScoresHeader} />
         </ScoreCont>
