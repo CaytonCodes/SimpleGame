@@ -1,6 +1,5 @@
 import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
-// import Obstacle from './Obstacle';
 import Player from './Player';
 import draw from './Draw';
 import gameFuncs from './GameFuncs';
@@ -25,7 +24,7 @@ const GameCanvas = (props) => {
   let lastEntry = startTime;
 
   const radius = Math.max(Math.floor(Math.max(boardWidth, boardHeight) / 67), 10);
-  newObstacles(obstacles, obstacleCount++, boardWidth, boardHeight, radius);
+  newObstacles(obstacles, obstacleCount, boardWidth, boardHeight, radius);
   const player = new Player(Math.floor(boardWidth / 2), Math.floor(boardHeight / 2), radius);
 
   const keyListener = (e) => {
@@ -40,11 +39,12 @@ const GameCanvas = (props) => {
   };
 
   const render = (context) => {
-    let thisTime = Date.now();
+    const thisTime = Date.now();
     const currentRun = thisTime - lastEntry;
     if (currentRun > 15000) {
       lastEntry = thisTime;
-      newObstacles(obstacles, obstacleCount++, boardWidth, boardHeight, radius);
+      obstacleCount += 1;
+      newObstacles(obstacles, obstacleCount, boardWidth, boardHeight, radius);
     }
     frameRef.current = window.requestAnimationFrame(render.bind(null, context));
     draw(context, boardWidth, boardHeight, obstacles, player, gameEnd);

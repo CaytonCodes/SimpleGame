@@ -12,7 +12,7 @@ const BoardContainer = styled.div`
 
 const BoardWrapper = styled.div`
   position: relative;
-  background: #221c1c;
+  background: black;
   width: 70%;
   min-width: 500px;
   height: 80vh;

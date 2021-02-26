@@ -45,9 +45,10 @@ app.post('/api/newGame', (req, res) => {
     //   let i = 0;
     //   let next;
     //   if (highScoreList[i]) {
-    //     while (lastSession <= highScoreList[i][1]) {
+    //     while (highScoreList[i] && lastSession <= highScoreList[i][1]) {
     //       i += 1;
     //     }
+    //     i -= 1;
     //     next = highScoreList[i];
     //     highScoreList[i] = [playerId, lastSession];
     //     i += 1;

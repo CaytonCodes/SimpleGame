@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const { Schema } = mongoose;
 
 mongoose.connect('mongodb://localhost/quarantineGame', { useNewUrlParser: true, useUnifiedTopology: true });

@@ -8,17 +8,27 @@ const getHighScores = (callback) => {
 };
 
 const newHighScore = (ScoresList, callback) => {
-  HighScores.findOneAndUpdate({}, { playerScores: ScoresList }, { upsert: true, new: true }, (err, newList) => {
-    if (err) { callback(err); }
-    callback(null, newList);
-  });
+  HighScores.findOneAndUpdate(
+    {},
+    { playerScores: ScoresList },
+    { upsert: true, new: true },
+    (err, newList) => {
+      if (err) { callback(err); }
+      callback(null, newList);
+    },
+  );
 };
 
 const newGame = (playerId, sessionScores, callback) => {
-  Game.findOneAndUpdate({ playerName: playerId }, { sessionScores }, { upsert: true, new: true }, (err, newList) => {
-    if (err) { callback(err); }
-    callback(null, newList);
-  });
+  Game.findOneAndUpdate(
+    { playerName: playerId },
+    { sessionScores },
+    { upsert: true, new: true },
+    (err, newList) => {
+      if (err) { callback(err); }
+      callback(null, newList);
+    },
+  );
 };
 
 module.exports = {
