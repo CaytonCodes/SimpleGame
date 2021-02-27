@@ -34,7 +34,7 @@ function ScoresList(props) {
           <ScoreEntry key={counter}>
             Player:&nbsp;
             {score[0]}
-            &nbsp;&nbsp;Score:&nbsp;
+            &nbsp;-- Score:&nbsp;
             {score[1]}
           &nbsp;seconds&nbsp;
           </ScoreEntry>
