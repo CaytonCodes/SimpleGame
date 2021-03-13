@@ -19,6 +19,7 @@ const BoardWrapper = styled.div`
   border: 5px solid white;
 `;
 
+// helper function to grab board size
 const getBoardSize = () => {
   const boardWidth = document.getElementById('BoardWrapper').clientWidth;
   const boardHeight = document.getElementById('BoardWrapper').clientHeight;

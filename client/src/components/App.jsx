@@ -26,7 +26,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       sessionScores: [],
-      highScores: [['juicebox', 5.5]],
+      highScores: [],
       playerName: null,
     };
     this.gameEnd = this.gameEnd.bind(this);
@@ -44,8 +44,8 @@ class App extends React.Component {
     sessionScores.unshift(time);
     if (sessionScores.length > 10) { sessionScores.pop(); }
     this.setState({ sessionScores });
-    console.log(this.state.sessionScores);
-    $.post('/api/newGame', { playerId: playerName, sessionScores: sessionScores }, (returnedData) => {
+    $.post('/api/newGame', { playerId: playerName, sessionScores }, (returnedData) => {
+      console.log(returnedData);
       if (returnedData[1]) {
         this.setState({ highScores: returnedData[1] });
       }

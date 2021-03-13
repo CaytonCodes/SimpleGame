@@ -1,3 +1,4 @@
+/* eslint-disable no-lonely-if */
 const express = require('express');
 const bodyparser = require('body-parser');
 const cors = require('cors');
@@ -17,11 +18,9 @@ app.use(express.static(`${__dirname}/../client/dist`));
 app.get('/api/highScores', (req, res) => {
   getHighScores((err, highScores) => {
     if (err) {
-      console.log(err);
       res.status(400).send(err);
     } else {
       highScoreList = highScores[0].playerScores;
-      console.log(highScoreList);
       if (highScoreList[0]) {
         lowestHighScore = highScoreList[highScores.length - 1][1];
       } else { lowestHighScore = 0; }
@@ -31,47 +30,33 @@ app.get('/api/highScores', (req, res) => {
 });
 
 app.post('/api/newGame', (req, res) => {
-  const { playerId } = req.body;
-  const sessionScores = req.body['sessionScores[]'];
-  // update highscores if needed
+  const { playerId, 'sessionScores[]': sessionScores } = req.body;
+  const latestScore = Array.isArray(sessionScores) ? sessionScores[0] : sessionScores;
+  let highScoreUpdate = false;
+  if (latestScore > lowestHighScore || highScoreList.length < 10) {
+    // update the highScoreList
+    highScoreList = [...highScoreList, [playerId, latestScore]].sort((a, b) => b[1] - a[1]);
+    while (highScoreList.length > 10) { highScoreList.pop(); }
+    highScoreUpdate = true;
+  }
   // update session scores
   newGame(playerId, sessionScores, (err, playerData) => {
+    const { sessionScores: returnedData } = playerData;
     if (err) {
-      console.log(err);
-      res.status(200).send(err);
-    // }
-    // const lastSession = parseFloat(sessionScores[0]);
-    // if (lastSession > lowestHighScore || highScoreList.length < 10) {
-    //   let i = 0;
-    //   let next;
-    //   if (highScoreList[i]) {
-    //     while (highScoreList[i] && lastSession <= highScoreList[i][1]) {
-    //       i += 1;
-    //     }
-    //     i -= 1;
-    //     next = highScoreList[i];
-    //     highScoreList[i] = [playerId, lastSession];
-    //     i += 1;
-    //     highScoreList[i] = next;
-    //     while (i < highScoreList.length) {
-    //       next = highScoreList[i];
-    //       highScoreList[i] = next;
-    //     }
-    //     while (highScoreList.length > 10) {
-    //       highScoreList.pop();
-    //     }
-    //   } else {
-    //     highScoreList = [playerId, lastSession];
-    //   }
-    //   newHighScore(highScoreList, (err2, highScoreData) => {
-    //     if (err) {
-    //       res.status(400).send(err2);
-    //     } else {
-    //       res.status(200).send([playerData, highScoreData]);
-    //     }
-    //   });
+      res.status(400).send(err);
     } else {
-      res.status(200).send([playerData]);
+      if (highScoreUpdate) {
+        newHighScore(highScoreList, (err2, returnedHighScores) => {
+          const { playerScores: updatedHighScores } = returnedHighScores;
+          if (err2) {
+            res.status(400).send(err2);
+          } else {
+            res.status(200).send([returnedData, updatedHighScores]);
+          }
+        });
+      } else {
+        res.status(200).send([returnedData]);
+      }
     }
   });
 });
