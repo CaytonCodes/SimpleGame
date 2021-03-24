@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-mongoose.connect('mongodb://localhost/quarantineGame', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost/quarantineGame', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));

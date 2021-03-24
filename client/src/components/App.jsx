@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import $ from 'jquery';
 import { mainTitle, SessScoresHeader, HighScoresHeader } from './Statements';
@@ -21,58 +21,49 @@ const ScoreCont = styled.div`
   align-content: stretch;
 `;
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      sessionScores: [],
-      highScores: [],
-      playerName: null,
-    };
-    this.gameEnd = this.gameEnd.bind(this);
-    this.updatePlayer = this.updatePlayer.bind(this);
-  }
+function App() {
+  const [sessionScores, setSessionScores] = useState([]);
+  const [highScores, setHighScores] = useState([]);
+  const [playerName, setPlayerName] = useState(null);
 
-  componentDidMount() {
+  useEffect(() => {
     $.get('/api/highScores', (data) => {
-      this.setState({ highScores: data });
+      setHighScores(data);
     });
-  }
+  }, []);
 
-  gameEnd(time) {
-    const { sessionScores, playerName } = this.state;
-    sessionScores.unshift(time);
-    if (sessionScores.length > 10) { sessionScores.pop(); }
-    this.setState({ sessionScores });
+  const gameEnd = (time) => {
+    // add game time to our sessionScores array
+    const tempScores = sessionScores;
+    tempScores.unshift(time);
+    if (tempScores.length > 10) { tempScores.pop(); }
+    setSessionScores(tempScores);
+    // send latest score to server
     $.post('/api/newGame', { playerId: playerName, sessionScores }, (returnedData) => {
+      // if returnedData has a second component, our highScores have changed
       console.log(returnedData);
-      if (returnedData[1]) {
-        this.setState({ highScores: returnedData[1] });
-      }
+      if (returnedData[1]) { setHighScores(returnedData[1]); }
     });
-  }
+  };
 
-  updatePlayer(name) {
-    this.setState({ playerName: name });
-  }
+  const updatePlayer = (name) => {
+    setPlayerName(name);
+  };
 
-  render() {
-    const { sessionScores, highScores, playerName } = this.state;
-    return (
-      <div>
-        <Title>{mainTitle}</Title>
-        <BoardCont
-          gameEnd={this.gameEnd}
-          playerName={playerName}
-          updatePlayer={this.updatePlayer}
-        />
-        <ScoreCont className="ScoresContainer">
-          <ScoresList list={highScores} header={HighScoresHeader} />
-          <ScoresList list={sessionScores} header={SessScoresHeader} />
-        </ScoreCont>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <Title>{mainTitle}</Title>
+      <BoardCont
+        gameEnd={gameEnd}
+        playerName={playerName}
+        updatePlayer={updatePlayer}
+      />
+      <ScoreCont className="ScoresContainer">
+        <ScoresList list={highScores} header={HighScoresHeader} />
+        <ScoresList list={sessionScores} header={SessScoresHeader} />
+      </ScoreCont>
+    </div>
+  );
 }
 
 export default App;

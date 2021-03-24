@@ -20,9 +20,10 @@ app.get('/api/highScores', (req, res) => {
     if (err) {
       res.status(400).send(err);
     } else {
-      highScoreList = highScores[0].playerScores;
+      highScoreList = highScores;
+      console.log(highScoreList);
       if (highScoreList[0]) {
-        lowestHighScore = highScoreList[highScores.length - 1][1];
+        lowestHighScore = highScoreList[highScoreList.length - 1][1];
       } else { lowestHighScore = 0; }
       res.status(200).send(highScoreList);
     }
@@ -37,6 +38,7 @@ app.post('/api/newGame', (req, res) => {
     // update the highScoreList
     highScoreList = [...highScoreList, [playerId, latestScore]].sort((a, b) => b[1] - a[1]);
     while (highScoreList.length > 10) { highScoreList.pop(); }
+    lowestHighScore = highScoreList[highScoreList.length - 1][1];
     highScoreUpdate = true;
   }
   // update session scores

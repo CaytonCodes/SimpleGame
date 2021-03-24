@@ -2,8 +2,9 @@ const { Game, HighScores } = require('./index.js');
 
 const getHighScores = (callback) => {
   HighScores.find({}, (err, doc) => {
+    const data = doc[0].playerScores;
     if (err) { callback(err); }
-    callback(null, doc);
+    callback(null, data);
   });
 };
 
