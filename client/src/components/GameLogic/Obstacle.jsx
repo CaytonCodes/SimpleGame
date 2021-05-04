@@ -1,3 +1,9 @@
+/*
+The obstacle class.
+Has position (x, y), velocity (vx, vy), radius, and some other geometric properties to help draw.
+
+Draw method accepts context and draws obstacle at its x,y position.
+*/
 class Obstacle {
   constructor(x, y, vx, vy, radius) {
     this.x = x;

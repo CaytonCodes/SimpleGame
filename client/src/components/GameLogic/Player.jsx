@@ -1,3 +1,8 @@
+/*
+Player class, similar to obstacle class, but easier geometry.
+If acceleration were included, we would have velocity properties.
+*/
+
 class Player {
   constructor(x, y, radius) {
     this.x = x;

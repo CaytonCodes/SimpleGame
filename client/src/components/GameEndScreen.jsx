@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const EndCont = styled.div`
   position: absolute;
@@ -24,7 +25,7 @@ const RestartButt = styled.input`
 `;
 
 const GameEndScreen = (props) => {
-  const { gameTime, gameChange} = props;
+  const { gameTime, gameChange } = props;
 
   const restartGame = (e) => {
     e.preventDefault();
@@ -50,6 +51,11 @@ const GameEndScreen = (props) => {
       </EndWrapper>
     </EndCont>
   );
+};
+
+GameEndScreen.propTypes = {
+  gameTime: PropTypes.number.isRequired,
+  gameChange: PropTypes.func.isRequired,
 };
 
 export default GameEndScreen;

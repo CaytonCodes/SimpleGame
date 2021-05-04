@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { ScoresEmpty } from './Statements';
 
 const ScoresWrapper = styled.div`
@@ -60,5 +61,10 @@ function ScoresList(props) {
     </ScoresWrapper>
   );
 }
+
+ScoresList.propTypes = {
+  list: PropTypes.instanceOf(Array).isRequired,
+  header: PropTypes.string.isRequired,
+};
 
 export default ScoresList;

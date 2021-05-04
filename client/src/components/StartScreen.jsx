@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { playInstructionsTitle, playInstructions } from './Statements';
 
 const StartCont = styled.div`
@@ -53,5 +54,9 @@ function StartScreen(props) {
     </StartCont>
   );
 }
+
+StartScreen.propTypes = {
+  gameChange: PropTypes.func.isRequired,
+};
 
 export default StartScreen;

@@ -40,8 +40,7 @@ function App() {
     setSessionScores(tempScores);
     // send latest score to server
     $.post('/api/newGame', { playerId: playerName, sessionScores }, (returnedData) => {
-      // if returnedData has a second component, our highScores have changed
-      console.log(returnedData);
+      // if returnedData has a second value, our highScores have changed
       if (returnedData[1]) { setHighScores(returnedData[1]); }
     });
   };
