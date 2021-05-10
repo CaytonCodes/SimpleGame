@@ -1,3 +1,8 @@
+/*
+This module contains the bulk statements that are presented during game use.
+Kept in one location for easy control.
+*/
+
 module.exports = {
   mainTitle: 'Quarantine -- The Game',
   playInstructionsTitle: 'How to play',
