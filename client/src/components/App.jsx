@@ -1,3 +1,6 @@
+/*
+To be cleaned up.
+*/
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import $ from 'jquery';

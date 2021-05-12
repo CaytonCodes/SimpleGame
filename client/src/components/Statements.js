@@ -14,4 +14,7 @@ module.exports = {
   SessScoresHeader: 'Your recent scores',
   ScoresEmpty: 'Play some games to fill this in',
   HighScoresHeader: 'High Scores',
+  gameEndPhrase: 'Infected!',
+  gameLengthTuple: ['You survived for', 'seconds.'],
+  startNewGame: 'I can do better!',
 };

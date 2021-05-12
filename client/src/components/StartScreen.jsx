@@ -1,3 +1,8 @@
+/*
+Start screen shows instructions and a start game button.
+Instruction strings are kept in Statements.js.
+*/
+
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';

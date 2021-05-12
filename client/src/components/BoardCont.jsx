@@ -1,3 +1,6 @@
+/*
+To be cleaned up
+*/
 import React from 'react';
 import styled from 'styled-components';
 import GameCanvas from './GameLogic/GameCanvas';

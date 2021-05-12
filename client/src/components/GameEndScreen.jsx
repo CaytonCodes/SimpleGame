@@ -1,6 +1,12 @@
+/*
+Game End Screen displays at the end of the game.
+Shows game duration, and allows for a new game to be started.
+All statement strings live in Statements.js.
+*/
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { gameEndPhrase, gameLengthTuple, startNewGame } from './Statements';
 
 const EndCont = styled.div`
   position: absolute;
@@ -36,16 +42,18 @@ const GameEndScreen = (props) => {
     <EndCont id="EndContainer">
       <EndWrapper id="EndWrapper">
         <div>
-          <h3>Infected!</h3>
+          <h3>{gameEndPhrase}</h3>
           <br />
-          You survived for&nbsp;
+          {gameLengthTuple[0]}
+          &nbsp;
           {gameTime}
-          &nbsp;seconds.
+          &nbsp;
+          {gameLengthTuple[1]}
         </div>
         <RestartButt
           id="EndButton"
           type="button"
-          value="I can do better!"
+          value={startNewGame}
           onClick={restartGame}
         />
       </EndWrapper>

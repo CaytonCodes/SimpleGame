@@ -1,3 +1,10 @@
+/*
+Modal lets player enter a name for high score data.
+Should only appear once prior to start of first game.
+High score data is based of an entered name, arcade style.
+There is no authentication of username.
+*/
+
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -16,9 +23,6 @@ const Submit = styled.input`
   margin: 50px;
 `;
 
-/*
-Modal form takes in player name and updates in app state.
-*/
 function PlayerModal(props) {
   const { updatePlayer } = props;
   const [name, setName] = useState('');
