@@ -1,5 +1,7 @@
 /*
-To be cleaned up.
+App returns a header, a board container component, and a list container component
+Board Container houses the game.
+The list container displays game scores.
 */
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
