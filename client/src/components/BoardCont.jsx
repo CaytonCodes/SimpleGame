@@ -1,5 +1,10 @@
 /*
-To be cleaned up
+Container for game board
+
+Fills board container with screens depending on phase of game play.
+phase 0 -> Start Screen
+phase 1 -> Game Canvas or Player Modal if no playerName
+phase 2 -> Game End Screen
 */
 import React, { useState } from 'react';
 import styled from 'styled-components';
@@ -23,6 +28,10 @@ const BoardWrapper = styled.div`
 `;
 
 // helper function to grab board size
+// grabbing board size now makes an easy reference that doesn't have to be
+// rechecked with every new animation frame
+// the drawback is that if the board changes size during gameplay
+// it won't be acknowledged by game
 const getBoardSize = () => {
   const boardWidth = document.getElementById('BoardWrapper').clientWidth;
   const boardHeight = document.getElementById('BoardWrapper').clientHeight;
