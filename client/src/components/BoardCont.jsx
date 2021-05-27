@@ -30,8 +30,8 @@ const getBoardSize = () => {
 };
 
 function BoardCont(props) {
-  const [gamePhase, setGamePhase] = useState();
-  const [lastGame, setLastGame] = useState();
+  const [gamePhase, setGamePhase] = useState(0);
+  const [lastGame, setLastGame] = useState(0);
 
   const gameChange = (phase, time = 0) => {
     const { gameEnd } = props;
@@ -41,32 +41,11 @@ function BoardCont(props) {
     }
     setGamePhase(phase);
   };
-}
 
-class BoardContOld extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      gamePhase: 0,
-      lastGame: 0,
-    };
-    this.gameChange = this.gameChange.bind(this);
-  }
-
-  gameChange(phase, time = 0) {
-    const { gameEnd } = this.props;
-    if (time > 0) {
-      this.setState({ lastGame: time });
-      gameEnd(time);
-    }
-    this.setState({ gamePhase: phase });
-  }
-
-  gameShow() {
-    const { gamePhase, lastGame } = this.state;
-    const { playerName, updatePlayer } = this.props;
+  const gameShow = () => {
+    const { playerName, updatePlayer } = props;
     if (gamePhase === 0) {
-      return <StartScreen gameChange={this.gameChange} />;
+      return <StartScreen gameChange={gameChange} />;
     }
     if (gamePhase === 1) {
       if (!playerName) {
@@ -77,29 +56,26 @@ class BoardContOld extends React.Component {
         <GameCanvas
           boardWidth={boardWidth}
           boardHeight={boardHeight}
-          gameChange={this.gameChange}
+          gameChange={gameChange}
         />
       );
     }
     return (
       <GameEndScreen
         gameTime={lastGame}
-        gameChange={this.gameChange}
+        gameChange={gameChange}
       />
     );
-  }
+  };
 
-  render() {
-    return (
-      <BoardContainer className="BoardContainer">
-        <BoardWrapper id="BoardWrapper">
-          {this.gameShow()}
-        </BoardWrapper>
-      </BoardContainer>
-    );
-  }
+  return (
+    <BoardContainer className="BoardContainer">
+      <BoardWrapper id="BoardWrapper">
+        {gameShow()}
+      </BoardWrapper>
+    </BoardContainer>
+  );
 }
-
 export default BoardCont;
 
 // class BoardCont extends React.Component {
