@@ -8,6 +8,7 @@ phase 2 -> Game End Screen
 */
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import GameCanvas from './GameLogic/GameCanvas';
 import StartScreen from './StartScreen';
 import GameEndScreen from './GameEndScreen';
@@ -85,61 +86,11 @@ function BoardCont(props) {
     </BoardContainer>
   );
 }
+
+BoardCont.propTypes = {
+  gameEnd: PropTypes.func.isRequired,
+  playerName: PropTypes.string.isRequired,
+  updatePlayer: PropTypes.func.isRequired,
+};
+
 export default BoardCont;
-
-// class BoardCont extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       gamePhase: 0,
-//       lastGame: 0,
-//     };
-//     this.gameChange = this.gameChange.bind(this);
-//   }
-
-//   gameChange(phase, time = 0) {
-//     const { gameEnd } = this.props;
-//     if (time > 0) {
-//       this.setState({ lastGame: time });
-//       gameEnd(time);
-//     }
-//     this.setState({ gamePhase: phase });
-//   }
-
-//   gameShow() {
-//     const { gamePhase, lastGame } = this.state;
-//     const { playerName, updatePlayer } = this.props;
-//     if (gamePhase === 0) {
-//       return <StartScreen gameChange={this.gameChange} />;
-//     }
-//     if (gamePhase === 1) {
-//       if (!playerName) {
-//         return (<PlayerModal updatePlayer={updatePlayer} />);
-//       }
-//       const { boardWidth, boardHeight } = getBoardSize();
-//       return (
-//         <GameCanvas
-//           boardWidth={boardWidth}
-//           boardHeight={boardHeight}
-//           gameChange={this.gameChange}
-//         />
-//       );
-//     }
-//     return (
-//       <GameEndScreen
-//         gameTime={lastGame}
-//         gameChange={this.gameChange}
-//       />
-//     );
-//   }
-
-//   render() {
-//     return (
-//       <BoardContainer className="BoardContainer">
-//         <BoardWrapper id="BoardWrapper">
-//           {this.gameShow()}
-//         </BoardWrapper>
-//       </BoardContainer>
-//     );
-//   }
-// }
